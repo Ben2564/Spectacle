@@ -1,7 +1,15 @@
 L'application permet grâce au javascript de gérer plusieurs réservations et de choisir le nombre de place que l'on veut réserver pour chaque réservation.
 Il y a la possibilité d'ajouter des réservations et d'en retirer. On peut faire autant de réservation qu'il y a de date.
 
-
+spécification de l'application :
+Une réservation regroupe le choix d'une date de réservation et le nombre de places que l'on veut réserver.
+On peut ajouter ou retirer des réservations.
+Pour pouvoir ajouter une réservation il faut dabord sélectionner une date sinon on ne peut pas cliquer sur le bouton pour ajouter une réservation.
+Le bouton ajouter une réservation se trouve toujours sur la réservation en cours.
+On ne peut modifier la date de réservation que sur la réservation en cours.
+Si l'on sélectionne une date dans une réservation elle ne pourra plus être re-sélectionner plus tard.
+Donc si on supprime une réservation la date pourra être re-sélectionner par la suite.
+On peut faire autant de réservation qu'il y a de date de réservation.
 
 
 
@@ -10,3 +18,8 @@ Etapes :
 - création du css.
 - mise en place de la fonctionnalité qui permet d'ajouter de nouvelle réservation grâce à un évènement déclenché par un clic en javascript.
 - mise en place de la fonctionnalité qui permet de retirer une réservation grâce à un évènement déclenché par un clic en javascript.
+
+
+Tâches restantes :
+-gérer les dates de réservations.
+-gérer la possibilité de ne pas pouvoir cliquer sur les boutons si une date n'est pas sélectionné

@@ -2,19 +2,40 @@ let form = document.querySelector("#formulaire")
 let btnAjout = document.getElementById('btnAjout')
 let taille = 1
 let nbChoix = 0
-const listeSpect = ["Un jour", "Deux jours", "Trois jours", "Quatres jours"]
-function getSpec() {
-    spe = listeSpect
-    let sel = document.querySelectorAll("select")
-    sel.forEach((element) => {
-        console.log(spe.includes(element.value))
-        if(spe.includes(element.value)){
-            spe = listeSpect.filter(ele => ele !== element.value )
-        }
-        console.log(spe.includes(element.value))
-    });
-    return spe
+const listeSpect = ["02/02/2024","28/05/2024","12/08/2024","07/12/2024"]
+let spect = new ListeSpec(listeSpect)
+
+class ListeSpec {
+    constructor(listeDateSpec){
+        this.listeDateSpec = listeDateSpec
+    }
+
+    add(element){
+        this.listeDateSpec.append(element)
+        // this.sort()
+    }
+
+    remove(element){
+        this.listeDateSpec = this.listeDateSpec.filter(cas => cas !== element)
+    }
+
+    // sort(){
+
+    // }
 }
+
+// function getSpec() {
+//     spe = listeSpect
+//     let sel = document.querySelectorAll("select")
+//     sel.forEach((element) => {
+//         console.log(spe.includes(element.value))
+//         if(spe.includes(element.value)){
+//             spe = listeSpect.filter(ele => ele !== element.value )
+//         }
+//         console.log(spe.includes(element.value))
+//     });
+//     return spe
+// }
 
 ajoutDiv()
 
@@ -23,7 +44,7 @@ btnAjout.addEventListener("click",function (){
 })
 
 function ajoutDiv(){
-    spectacle = getSpec()
+
     let newDiv = document.createElement('div')
     let newP = document.createElement('p')
     let newButton = document.createElement('button')
