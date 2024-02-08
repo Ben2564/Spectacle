@@ -1,46 +1,18 @@
 let form = document.querySelector("#formulaire")
-let btnAjout = document.getElementById('btnAjout')
+const btnAjout = document.getElementById('btnAjout')
+
 let taille = 1
 let nbChoix = 0
 const listeSpect = ["02/02/2024","28/05/2024","12/08/2024","07/12/2024"]
-let spect = new ListeSpec(listeSpect)
-
-class ListeSpec {
-    constructor(listeDateSpec){
-        this.listeDateSpec = listeDateSpec
-    }
-
-    add(element){
-        this.listeDateSpec.append(element)
-        // this.sort()
-    }
-
-    remove(element){
-        this.listeDateSpec = this.listeDateSpec.filter(cas => cas !== element)
-    }
-
-    // sort(){
-
-    // }
-}
-
-// function getSpec() {
-//     spe = listeSpect
-//     let sel = document.querySelectorAll("select")
-//     sel.forEach((element) => {
-//         console.log(spe.includes(element.value))
-//         if(spe.includes(element.value)){
-//             spe = listeSpect.filter(ele => ele !== element.value )
-//         }
-//         console.log(spe.includes(element.value))
-//     });
-//     return spe
-// }
 
 ajoutDiv()
 
 btnAjout.addEventListener("click",function (){
+    document.querySelectorAll("select").forEach(val => {
+        val.disabled = true;
+    })
     ajoutDiv()
+    btnAjout.style.display = "none"
 })
 
 function ajoutDiv(){
@@ -49,7 +21,6 @@ function ajoutDiv(){
     let newP = document.createElement('p')
     let newButton = document.createElement('button')
     let newSel = document.createElement('select')
-    // newSel.id = 
     let newLabelSel1 = document.createElement('label')
     newLabelSel1.htmlFor="selectOption"+ (Number(taille))
     newLabelSel1.textContent = "Choix de la date : "
@@ -57,29 +28,17 @@ function ajoutDiv(){
     newLabelSel2.htmlFor="input"+ (Number(taille))
     newLabelSel2.textContent = "Nombre de place : "
     let newOption = document.createElement('option')
+    newSel.setAttribute("onchange", "etatButAjout(this)")
+    newSel.setAttribute("onclick", "choixOption(this)")
     newSel.append(newOption)
     newOption.className = "optionChoix"
     newOption.value = "Choisir une date"
     newOption.textContent = "Choisir une date"
-    for(let i = 0; i < spectacle.length; i++){
-        let newOption = document.createElement('option')
-        newSel.append(newOption)
-        newOption.className = "optionChoix"
-        newOption.value = spectacle[i]
-        newOption.textContent = spectacle[i]
-    }
     let newInput = document.createElement('input')
     newInput.type = "number"
     newInput.value = 1
     newInput.min = 1
     newInput.max = 20
-    // if(taille == 1){
-    //     newInput.id = "input" + (Number(taille))
-    //     newDiv.id = "div" + (Number(taille))
-    // }else{
-    //     newInput.id = "input" + (Number(taille)+1)
-    //     newDiv.id = "div" + (Number(taille)+1)
-    // }
     taille += 1
     newInput.className = "inputChoix"
     nbChoix += 1
@@ -90,15 +49,17 @@ function ajoutDiv(){
     newDiv.append(newSel)
     newDiv.append(newLabelSel2)
     newDiv.append(newInput)
-    if(taille >2){
-        newButton.className = "btnSuppr"
-        newButton.type = "button"
-        newButton.innerHTML = "Supprimer la réservation"
-        newDiv.append(newButton)
-        if (nbChoix == listeSpect.length){
-            btnAjout.style.display = "none"
-        }
+    newButton.className = "btnSuppr"
+    newButton.type = "button"
+    newButton.innerHTML = "Supprimer la réservation"
+    newDiv.append(newButton)
+    if(taille == taille){
+        newButton.style.display = "none"
+        document.querySelectorAll(".btnSuppr").forEach(val => {
+            val.style.display = "block"
+        })
     }
+    newDiv.append(newButton)
     form.insertBefore(newDiv,btnAjout)
 }
 
@@ -106,9 +67,44 @@ document.body.addEventListener('click', function(event) {
     if (event.target.classList.contains('btnSuppr')) {
         let divParente = event.target.parentNode;
         divParente.remove();
-        if (nbChoix == spectacle.length){
-            btnAjout.style.display = "block"
-        }
         nbChoix -= 1
     }
 });
+
+function getValSelect(){
+    let tab = []
+    document.querySelectorAll("select").forEach((val) =>
+        tab.push(val.value)
+    )
+    return tab
+}
+
+function etatButAjout(sel){
+    if (sel.value !== "Choisir une date") {
+        if (nbChoix != listeSpect.length){
+            document.querySelector("#btnAjout").style.display = "block";
+        }
+    }else {
+        document.querySelector("#btnAjout").style.display = "none";
+    }
+}
+
+
+function choixOption(choix) {
+    const tab = getValSelect();
+    const tabExist = [];
+    choix.querySelectorAll("option").forEach(val => {
+        if (val.value !== "Choisir une date") {
+            tabExist.push(val.value);
+        }
+    });
+    for (let i = 0; i < listeSpect.length; i++) {
+        if (!tab.includes(listeSpect[i]) && !tabExist.includes(listeSpect[i])) {
+            let newOption = document.createElement('option');
+            newOption.className = "optionChoix";
+            newOption.value = listeSpect[i];
+            newOption.textContent = listeSpect[i];
+            choix.appendChild(newOption);
+        }
+    }
+}
